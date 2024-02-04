@@ -1,0 +1,12 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    // Listen for the 'welcome' event from the server
+    socket.on('welcome', (message) => {
+        console.log(message);
+    });
+
+    // Example sending a message to the server
+    socket.emit('chat message', 'Hello, server!');
+</script>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Install Socket&period;io in express in controller</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="install-socketio-in-express-in-controller">Install <a href="http://Socket.io">Socket.io</a> in express in controller</h1>
+<h2 id="installation">Installation</h2>
+<p>Use the package manager <a href="https://pip.pypa.io/en/stable/">pip</a> to install foobar.</p>
+<pre><code class="language-bash">npm i socket.io```
+
+<span class="hljs-comment">## Usage</span>
+```javascript
+const { createServer } = require(<span class="hljs-string">&quot;http&quot;</span>);
+const httpServer = createServer(app);
+// Socket.io setup
+const initializeSocket = require(<span class="hljs-string">&quot;./socket&quot;</span>);
+
+const io= initializeSocket(httpServer);
+
+
+// Define your routes and other middleware here
+
+app.set(<span class="hljs-string">&quot;io&quot;</span>,io)
+  app.use((req, res, next) =&gt; {
+    req.io = io;
+    <span class="hljs-built_in">return</span> next();
+  });
+
+// Routes setup
+require(<span class="hljs-string">&quot;./routes/auth&quot;</span>)(app);
+// Start the server
+httpServer.listen(3000, () =&gt; {
+  console.log(<span class="hljs-string">&quot;Server listening on port 3000&quot;</span>);
+});
+
+
+</code></pre>
+<h2 id="now-create-a-seperate-file-socketjs-and-import">Now create a seperate file socket.js and import</h2>
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { <span class="hljs-title class_">Server</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;socket.io&quot;</span>);
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;express&#x27;</span>)
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">express</span>()
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">initializeSocket</span>(<span class="hljs-params">httpServer</span>) {
+  <span class="hljs-keyword">const</span> io = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Server</span>(httpServer, {
+    <span class="hljs-attr">cors</span>: {
+      <span class="hljs-attr">origin</span>: <span class="hljs-string">&quot;*&quot;</span>,  <span class="hljs-comment">// Adjust this to your frontend&#x27;s URL</span>
+      <span class="hljs-attr">methods</span>: [<span class="hljs-string">&quot;GET&quot;</span>, <span class="hljs-string">&quot;POST&quot;</span>]
+    }
+  });
+  
+  io.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">socket</span>) =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;A user connected&#x27;</span>);
+
+    socket.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;welcome&#x27;</span>, <span class="hljs-string">&#x27;Welcome! Socket is working.&#x27;</span>);
+    <span class="hljs-comment">// socket.emit(&#x27;message&#x27;, &quot;k cha ho thikai cha tmro k cha tw?&quot;);</span>
+
+
+    socket.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;disconnect&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;User disconnected&#x27;</span>);
+    });
+    
+    socket.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;livechange&#x27;</span>, <span class="hljs-string">&#x27;Live change here +24 .&#x27;</span>);
+
+  });
+
+  <span class="hljs-keyword">return</span> io;
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = initializeSocket;
+
+</code></pre>
+<h1 id="in-controller-use-the-function">In controller use the function</h1>
+<pre><code class="language-javascript"> <span class="hljs-string">&#x27;io&#x27;</span> is set <span class="hljs-keyword">in</span> the app.<span class="hljs-property">js</span>
+   <span class="hljs-keyword">const</span> io = req.<span class="hljs-property">app</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;io&#x27;</span>);
+        
+   <span class="hljs-keyword">if</span> (!io) {
+       <span class="hljs-comment">// Handle the case where &#x27;io&#x27; is not set in the app</span>
+       <span class="hljs-keyword">return</span> res.<span class="hljs-title function_">status</span>(<span class="hljs-number">500</span>).<span class="hljs-title function_">json</span>({ <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Socket.io instance not available&#x27;</span> });
+   }
+
+   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Emitting Message:&#x27;</span>, message);
+   io.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;message&#x27;</span>, message);
+</code></pre>
+<p>Now its works fine</p>
+
+            
+            
+        </body>
+        </html>
