@@ -12,7 +12,7 @@ const bcrypt = require("bcrypt")
 
 /**
  * @swagger
- * /api/users/login:
+ * /api/auth/login:
  *   post:
  *     summary: User login
  *     description: Retrieve a list of all users.
@@ -67,7 +67,7 @@ res.json({ accessToken, refreshToken });
 
 /**
  * @swagger
- * /api/users/register:
+ * /api/auth/register:
  *   post:
  *     summary: User registration
  *     description: Register a new user.

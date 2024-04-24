@@ -10,9 +10,14 @@ const authMiddleware = (req, res, next) => {
 
     }
     try {
-        const decoded = jwt.verify(token, 'ACCESS_TOKEN_SECRET');
-        req.user = decoded;
-        next();
+        jwt.verify(token, "ACCESS_TOKEN_SECRET", (err, decodedPayload) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+            req.userId = decodedPayload.userId;
+            next();
+        });
+
 
     } catch (error) {
         res.status(401).json({ message: 'Unauthorized, invalid token' });
